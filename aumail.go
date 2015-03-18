@@ -6,7 +6,7 @@ import (
 	"github.com/sendgrid/sendgrid-go"
 )
 
-type aumail struct {
+type AuMail struct {
 	SendGridUser string
 	SendGridKey  string
 	From         string
@@ -16,7 +16,7 @@ type aumail struct {
 	HTML         string
 }
 
-func (au *aumail) Send() bool {
+func (au *AuMail) Send() (ifError bool, desc string) {
 	sg := sendgrid.NewSendGridClient(au.SendGridUser, au.SendGridKey)
 	message := sendgrid.NewMail()
 	for i := 0; i < len(au.Emails); i++ {
@@ -33,8 +33,8 @@ func (au *aumail) Send() bool {
 
 	message.SetFrom(au.From)
 	if r := sg.Send(message); r == nil {
-		return true
+		return true, ""
 	} else {
-		return false
+		return false, r.Error()
 	}
 }
