@@ -1,16 +1,19 @@
 package aumail
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestSend(t *testing.T) {
 	var au AuMail
 
-	au.SendGridUser = ""
-	au.SendGridKey = ""
+	au.SendGridUser = os.Getenv("SendGridUser")
+	au.SendGridKey = os.Getenv("SendGridKey")
 
 	au.From = "abhi@aureum.io"
 	emails := make([]string, 0)
-	emails = append(emails, "cheryl@aureum.io")
+	emails = append(emails, "abhi@aureum.io")
 	au.Emails = emails
 
 	au.Subject = "Hello"
